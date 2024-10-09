@@ -1,6 +1,4 @@
-/*
-Copyright © 2024 NAME HERE basel21mahmoud@gmail.com
-*/package cmd
+package cmd
 
 import (
 	"bytes"
