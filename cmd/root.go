@@ -64,6 +64,7 @@ func runPrompt(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Printf("Error saving response to database: %v\n", err)
 	}
+	defer db.CloseDB()
 }
 
 func getAPIKey() string {
@@ -127,7 +128,6 @@ func Execute() {
 }
 
 func init() {
-	db.InitDB() 
-	defer db.CloseDB() 
+	db.InitDB()
 	rootCmd.Flags().StringVarP(&prompt, "prompt", "p", "", "Prompt to process (optional)")
 }
