@@ -46,6 +46,26 @@ func SaveResponse(id, model, message string, created float64, tokens int, time f
 	return nil
 }
 
+type usedTokens struct {
+	id     string
+	tokens int
+}
+
+func GetUserTokens() (int, error) {
+	query := `SELECT SUM(usage_tokens) AS total_tokens FROM responses`
+
+	var result int
+	err := db.QueryRow(query).Scan(&result)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return result, fmt.Errorf("you do not seem to have any tokens")
+		}
+		return result, fmt.Errorf("error querying data from DB: %v", err)
+	}
+
+	return result, nil
+}
+
 // CloseDB closes the database connection.
 func CloseDB() {
 	if db != nil {
